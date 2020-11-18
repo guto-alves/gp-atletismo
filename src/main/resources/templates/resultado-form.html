@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/base :: layout('Resultados', ~{::body})}">
+<body>
+	<!-- th:action="@{/resultado/save(resultado=${resultado})}" -->
+
+	<form action="#" method="post" th:object="${resultado}" style="margin: 16px;">
+		<h2>Registrar Marca</h2>
+		<hr>
+
+		<div class="form-group">
+			<h3>Prova</h3>
+			<select id="provas" class="form-control">
+				<option th:each="prova : ${provas}" th:value="${prova.id}" th:text="${prova.nome + ' - ' + prova.sexo}">
+			</select>
+		</div>
+
+		<div class="form-group">
+			<h3>Fase</h3>
+			<select class="form-control">
+				<option>Fase Inicial</option>
+				<option>Fase Final</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<h3>Atleta</h3>
+			<select id="atletas" class="form-control" th:field="*{atleta}">
+				<option th:each="atleta : ${provas.get(0).atletas}" th:value="${atleta}"
+					th:text="${atleta.nome + ' - ' + atleta.sexo}">
+			</select>
+		</div>
+
+		<div id="marcas" class="form-group row">
+			<div class="form-group col">
+				<label for="inputM1" class="col-form-label col-form-label-lg">M1</label> 
+				<input type="number" class="form-control form-control-lg" id="inputM1" min="00.00" step=".01" th:field="*{m1}">
+			</div>
+			<div class="form-group col">
+				<label for="inputM2" class="col-form-label col-form-label-lg">M2</label> 
+				<input type="number" class="form-control form-control-lg" id="inputM2" min="00.00" step=".01" th:field="*{m2}">
+			</div>
+			<div class="form-group col">
+				<label for="inputM3" class="col-form-label col-form-label-lg">M3</label> 
+				<input type="number" class="form-control form-control-lg" id="inputM3" min="00.00" step=".01" th:field="*{m3}">
+			</div>
+			<div class="form-group col">
+				<label for="inputM4" class="col-form-label col-form-label-lg">M4</label> 
+				<input type="number" class="form-control form-control-lg" id="inputM4" min="00.00" step=".01" th:field="*{m4}">
+			</div>
+			<div class="form-group col">
+				<label for="inputM5" class="col-form-label col-form-label-lg">M5</label> 
+				<input type="number" class="form-control form-control-lg" id="inputM5" min="00.00" step=".01" th:field="*{m5}">
+			</div>
+			<div class="form-group col">
+				<label for="inputM6" class="col-form-label col-form-label-lg">M6</label> 
+				<input type="number" class="form-control form-control-lg" id="inputM6" min="00.00" step=".01" th:field="*{m6}">
+			</div>
+		</div>
+		
+		<div id="tempo" class="form-group row">
+		    <label for="inputTime" class="col-sm-2 col-form-label col-form-label-lg">Tempo</label>
+		    <div class="col-sm-10">
+		      <input type="time" class="form-control form-control-lg" id="inputTime" 
+		      		min="00:00" step=".001">
+		    </div>
+ 	 	</div>
+
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary form-control">Salvar</button>
+		</div>
+	</form>
+
+	<script type="text/javascript" th:inline="javascript">
+			var provas = /*[[${provas}]]*/ null;		
+	
+			var provas = document.getElementById("provas");
+			
+			$("#provas").change(function() {
+				var provaId = $(this).val(); 
+
+				console.log($(this))
+				console.log(provaId)
+				alert(provaId);
+				
+				$("#atletas option").remove();
+				
+				provas[2].atletas.forEach((atleta) => {
+					$("#atletas").append('<option th:each="atleta : ${provas.get(0).atletas}" th:value="${atleta}" th:text="${atleta.nome + ' - ' + atleta.sexo}">');
+				});
+			});
+		</script>
+</body>
+</html>

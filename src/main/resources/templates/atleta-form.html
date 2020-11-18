@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/base :: layout('Atletas', ~{::body})}">
+	<body>
+		<h2 class="font-weight-bold" style="margin-top: 16px">Cadastrar Atleta</h2>
+		<hr>
+		
+		<form action="#" method="post" th:object="${atleta}" th:action="@{atletas/save(atleta=${atleta})}">
+			<div class="form-group row">
+				<label for="nomeInput" class="col-sm-2 col-form-label">Nome</label>
+				<div class="col-sm-10">				
+					<input class="form-control" id="nomeInput" type="text" th:value="*{nome}">
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Sexo</label>
+				<div class="col-sm-10">
+					<select class="form-control">
+						<option>Masculino</option>
+						<option >Feminino</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">País</label>
+				<div class="col-sm-10">
+					<select class="form-control" th:value="*{pais}">
+						<option th:each="pais : ${paises}" th:text="${pais.nome}"></option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="provaSelect" class="col-sm-2 col-form-label">Prova</label>
+				<div class="col-sm-10">				
+					<select class="form-control" id="provaSelect">
+						<option th:value="${prova}" th:each="prova : ${provas}" th:text="${prova.nome + ' - ' + prova.sexo}">
+					</select>
+				</div>
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Savar</button>
+		</form>
+	</body>
+</html>

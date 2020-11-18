@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/base :: layout ('Provas', ~{::body})}">
+	<body>
+		<h3 class="font-weight-bold" style="margin-top: 16px">Lista de Provas</h3>
+		<hr>
+		
+		<div class="form-group">
+			<input class="form-control" type="text" id="input" onkeyup="filtrar()" placeholder="Pesquise pelo nome da prova ou sexo">
+		</div>
+		
+		<table id="table" class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>Prova / Event</th>
+					<th>Sexo / Gender</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="prova : ${provas}">
+					<td class="align-middle" th:text="${prova.nome}"></td>
+					<td class="align-middle" th:text="${prova.sexo}"></td>
+					<td class="align-middle" ><a class="btn btn-primary" href="#" th:href="@{/resultados(provaId=${prova.id})}">Resultado</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<script type="text/javascript">
+			function filtrar() {		
+				var input = document.getElementById("input");
+				var filter = input.value.toUpperCase();
+				var table = document.getElementById("table");
+				var tr = table.getElementsByTagName("tr");
+				
+				for (i = 0; i < tr.length; i++) {
+					var tds = tr[i].getElementsByTagName("td");
+					
+					for (j = 0; j < tds.length; j++) {
+						var td = tds[j];
+						
+						if (td) {
+					      	var txtValue = td.textContent || td.innerText;
+			
+							if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						        tr[i].style.display = "";
+						        break;
+						    } else {
+						        tr[i].style.display = "none";
+						    }
+					    }
+					}
+				}
+			}
+		</script>
+	</body>
+</html>

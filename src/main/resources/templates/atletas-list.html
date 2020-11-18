@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/base :: layout('Atletas', ~{::body})}">
+<body>
+	<h3 class="font-weight-bold" style="margin-top: 16px">Lista de Atletas / Athlete List</h3>
+	<hr>
+
+	<div class="form-group">
+		<input class="form-control" type="text" id="input" onkeyup="filtrar()" placeholder="Pesquise pelo atleta, sexo, país..">
+	</div>
+
+	<table id="table" class="table table-bordered table-striped table-sm table-hover">
+		<thead class="thead-dark">
+			<tr>
+				<th>Atleta / Athlete</th>
+				<th>Sexo / Gender</th>
+				<th>País / Country</th>
+				<th>Prova / Event</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="atleta : ${atletas}">
+				<td class="align-middle" th:text="${atleta.nome}"></td>
+				<td class="align-middle" th:text="${atleta.sexo}"></td>
+				<td>
+					<img class="d-inline p-2 align-middle" th:src="${atleta.pais.imagemUrl}">
+					<p class="d-inline p-2 align-middle" th:text="${atleta.pais.sigla}"></p>
+				</td>
+				<td class="align-middle" th:text="${atleta.provas.get(0).nome}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		function filtrar() {		
+			var input = document.getElementById("input");
+			var filter = input.value.toUpperCase();
+			var table = document.getElementById("table");
+			var tr = table.getElementsByTagName("tr");
+			
+			for (i = 0; i < tr.length; i++) {
+				
+				var tds = tr[i].getElementsByTagName("td");
+				
+				for (j = 0; j < tds.length; j++) {
+					var td = tds[j];
+					
+					if (td) {
+				      	var txtValue = td.textContent || td.innerText;
+		
+						if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					        tr[i].style.display = "";
+					        break;
+					    } else {
+					        tr[i].style.display = "none";
+					    }
+				    }
+				}
+			}
+		}
+	</script>
+</body>
+</html>

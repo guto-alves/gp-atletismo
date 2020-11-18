@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org" th:replace="~{fragments/base :: layout ('Resultado', ~{::body})}">
+	<body th:object="${prova}">
+		<h3 class="font-weight-bold m-3" th:text="*{nome} + ' - ' + *{sexo}"></h3>
+		<hr>
+		
+		<h3 class="top">Resultado Oficial / Official Result</h3>
+		
+		<h3 style="margin-top: 32px;" th:if="*{#lists.isEmpty(fases.get(0).resultados)}">
+			Ops.. Nenhuma fase dessa prova ocorreu ainda!
+		</h3>
+		
+		<div th:if="*{!#lists.isEmpty(fases.get(0).resultados)}">
+			<h3>Resultado da Fase Inicial</h3>
+			
+			<table class="table table-striped table-sm table-hover">
+				<thead class="thead-dark">
+					<tr>
+						<th>Col</th>
+						<th>N°</th>
+						<th>Atleta / Athlete</th>
+						<th>Pais / Country</th>
+						<th>Tempo / Mark</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="resultado,row : *{fases.get(0).resultados}">
+						<td th:style="${row.index} < 8 ? 'font-size: 20px; font-weight: bold;; color: blue;'" th:class="align-middle" th:text="${row.count}"></td>
+						<td th:style="${row.index} < 8 ? 'font-size: 20px; font-weight: bold; color: blue;'" class="align-middle" th:text="${resultado.atleta.id}"></td>
+						<td th:style="${row.index} < 8 ? 'font-size: 20px; font-weight: bold; color: blue;;'" class="align-middle" th:text="${resultado.atleta.nome}"></td>
+						
+						<td class="align-middle">				
+							<img class="d-inline p-2 align-middle" alt="" th:src="${resultado.atleta.pais.imagemUrl}">
+							<p class="d-inline p-2 align-middle" th:text="${resultado.atleta.pais.sigla}">
+						</td>
+						
+						<td th:if="*{#strings.equals(tipo, 'Tempo')}" class="align-middle" th:text="${#dates.format(resultado.tempo, 'HH:mm:ss:ddd')}"></td>
+						<td th:if="*{#strings.equals(tipo, 'Distancia')}" class="align-middle" th:text="${resultado.getMelhorMarca()}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div th:if="*{!#lists.isEmpty(fases.get(1).resultados)}">
+			<h3>Resultado da Fase Final</h3>
+			
+			<table class="table table-striped table-sm table-hover">
+				<thead class="thead-dark">
+					<tr>
+						<th>Col</th>
+						<th>N°</th>
+						<th>Atleta / Athlete</th>
+						<th>Pais / Country</th>
+						<th>Tempo / Mark</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="resultado,row : *{fases.get(1).resultados}">
+						<td th:style="${row.index} < 3 ? 'font-size: 20px; font-weight: bold; color: blue;'" class="align-middle" th:text="${row.count}"></td>
+						<td th:style="${row.index} < 3 ? 'font-size: 20px; font-weight: bold; color: blue;'" class="align-middle" th:text="${resultado.atleta.id}"></td>
+						<td th:style="${row.index} < 3 ? 'font-size: 20px; font-weight: bold; color: blue;'" class="align-middle" th:text="${resultado.atleta.nome}"></td>
+						
+						<td class="align-middle">				
+							<img class="d-inline p-2 align-middle" alt="" th:src="${resultado.atleta.pais.imagemUrl}">
+							<p class="d-inline p-2 align-middle" th:text="${resultado.atleta.pais.sigla}">
+						</td>
+						<td th:if="*{#strings.equals(tipo, 'Tempo')}" class="align-middle" th:text="${#dates.format(resultado.tempo, 'HH:mm:ss:ddd')}"></td>
+						<td th:if="*{#strings.equals(tipo, 'Distancia')}" class="align-middle" th:text="${resultado.getMelhorMarca()}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</body>
+</html>
